@@ -28,6 +28,8 @@ final class Main {
 
 		Assets::hooks();
 
+		PluginOptions::hooks();
+
 		add_action( 'current_screen', array( __CLASS__, 'conditional_includes' ) );
 	}
 

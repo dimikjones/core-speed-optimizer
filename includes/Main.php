@@ -87,6 +87,8 @@ final class Main {
 
 		Customizations\ACF::hooks();
 
+		OptionsDispatch::hooks();
+
 		// Set up localisation.
 		self::load_plugin_textdomain();
 
