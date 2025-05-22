@@ -85,6 +85,38 @@ class PluginOptions extends AdminPageMain {
 				'description' => __( 'Disable all WordPress emoji scripts and styles.', 'core-speed-optimizer' ),
 			]
 		);
+		$this->add_field(
+			[
+				'type'        => 'toggle',
+				'id'          => 'disable_wp_oembed',
+				'label'       => 'Disable all oEmbed-related scripts',
+				'description' => __( 'Disable all oEmbed-related scripts and discovery links from WordPress.', 'core-speed-optimizer' ),
+			]
+		);
+		$this->add_field(
+			[
+				'type'        => 'toggle',
+				'id'          => 'disable_self_pingbacks',
+				'label'       => 'Disable self-pingbacks',
+				'description' => __( 'Disable self-pingbacks in WordPress to prevent unnecessary notifications.', 'core-speed-optimizer' ),
+			]
+		);
+		$this->add_field(
+			[
+				'type'        => 'toggle',
+				'id'          => 'limit_post_revisions',
+				'label'       => 'Limit post revisions',
+				'description' => __( 'Limit WordPress post revisions to 5.', 'core-speed-optimizer' ),
+			]
+		);
+		$this->add_field(
+			[
+				'type'        => 'toggle',
+				'id'          => 'disable_capital_p_dangit',
+				'label'       => 'Disable capital_P_dangit',
+				'description' => __( 'It prevents WordPress from auto-correcting "wordpress" to "WordPress."', 'core-speed-optimizer' ),
+			]
+		);
 
 		// Add settings section.
 		add_settings_section(

@@ -29,6 +29,10 @@ final class OptionsDispatch {
 		add_filter( 'wp_enqueue_scripts', array( __CLASS__, 'disable_heartbeat_frontend' ), 100 );
 		add_filter( 'heartbeat_settings', array( __CLASS__, 'control_heartbeat_settings' ) );
 		add_action( 'init', array( __CLASS__, 'disable_emojis' ) );
+		add_action( 'init', array( __CLASS__, 'disable_wp_oembed' ) );
+		add_action( 'pre_ping', array( __CLASS__, 'disable_self_pingbacks' ) );
+		add_filter( 'wp_revisions_to_keep', array( __CLASS__, 'limit_post_revisions' ) );
+		add_action( 'init', array( __CLASS__, 'disable_capital_p_dangit' ) );
 	}
 
 
@@ -136,5 +140,79 @@ final class OptionsDispatch {
 		}
 
 		return $urls;
+	}
+
+	/**
+	 * Remove oEmbed discovery links from <head> (prevents unnecessary requests).
+	 */
+	public static function disable_wp_oembed() {
+		if ( get_option( 'core_speed_optimizer_options' )['disable_wp_oembed'] ) {
+			remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
+
+			// Remove oEmbed-specific JavaScript that loads on the frontend.
+			remove_action( 'wp_head', 'wp_oembed_add_host_js' );
+
+			// Disable REST API oEmbed endpoints (prevents external sites from embedding WP content).
+			remove_action( 'rest_api_init', 'wp_oembed_register_route' );
+
+			// Remove oEmbed filtering from content processing (stops WP auto-converting URLs).
+			remove_filter( 'oembed_dataparse', 'wp_filter_oembed_result', 10 );
+			remove_filter( 'oembed_response_data', 'get_oembed_response_data', 10 );
+
+			// Disable automatic oEmbed URL conversion for posts/comments.
+			remove_filter( 'the_content', [ $GLOBALS['wp_embed'], 'autoembed' ], 8 );
+			remove_filter( 'widget_text_content', [ $GLOBALS['wp_embed'], 'autoembed' ], 8 );
+		}
+	}
+
+	/**
+	 * Disable self-pingbacks in WordPress to prevent unnecessary notifications.
+	 *
+	 * Pingbacks allow automatic notifications when linking to a post on another site.
+	 * However, self-pingbacks occur when a site links to its own posts, cluttering comments.
+	 * This function removes links from the ping process if they belong to the same domain.
+	 */
+	public static function disable_self_pingbacks( &$links ) {
+		if ( get_option( 'core_speed_optimizer_options' )['disable_self_pingbacks'] ) {
+			// Get the site's base URL.
+			$home_url = home_url();
+
+			foreach ( $links as $key => $link ) {
+				// Check if the link belongs to this site.
+				if ( strpos( $link, $home_url ) === 0 ) {
+					// Remove self-pingback link.
+					unset( $links[ $key ] );
+				}
+			}
+		}
+	}
+
+	/**
+	 * Limit WordPress post revisions to 5.
+	 *
+	 * This reduces unnecessary database storage while retaining useful revisions for editing.
+	 */
+	public static function limit_post_revisions() {
+		if ( get_option( 'core_speed_optimizer_options' )['limit_post_revisions'] ) {
+			// Set the max number of revisions.
+			return 5;
+		}
+	}
+
+	/**
+	 * Disable the `capital_P_dangit` function in WordPress.
+	 *
+	 * This function is normally applied to content, titles, comments, and feeds.
+	 * It prevents WordPress from auto-correcting "wordpress" to "WordPress."
+	 */
+	public static function disable_capital_p_dangit() {
+		if ( get_option( 'core_speed_optimizer_options' )['disable_capital_p_dangit'] ) {
+			remove_filter( 'the_content', 'capital_P_dangit', 11 );
+			remove_filter( 'the_title', 'capital_P_dangit', 11 );
+			remove_filter( 'wp_title', 'capital_P_dangit', 11 );
+			remove_filter( 'document_title', 'capital_P_dangit', 11 );
+			remove_filter( 'widget_text_content', 'capital_P_dangit', 11 );
+			remove_filter( 'comment_text', 'capital_P_dangit', 31 );
+		}
 	}
 }
