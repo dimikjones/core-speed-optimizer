@@ -87,6 +87,7 @@ final class Main {
 
 		Customizations\ACF::hooks();
 
+		// Options are required on both front and admin.
 		OptionsDispatch::hooks();
 
 		// Set up localisation.
@@ -147,7 +148,7 @@ final class Main {
 
 			add_action(
 				'admin_notices',
-				function() use ( $errors ) {
+				function () use ( $errors ) {
 					?>
 					<div class="notice notice-error">
 						<?php
@@ -183,6 +184,6 @@ final class Main {
 
 		load_textdomain( 'core-speed-optimizer', WP_LANG_DIR . '/core-speed-optimizer/core-speed-optimizer-' . $locale . '.mo' );
 
-		load_plugin_textdomain( 'core-speed-optimizer', false, plugin_basename( dirname( __FILE__ ) ) . '/i18n/languages' );
+		load_plugin_textdomain( 'core-speed-optimizer', false, plugin_basename( __DIR__ ) . '/i18n/languages' );
 	}
 }

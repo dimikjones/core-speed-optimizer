@@ -49,50 +49,46 @@ class PluginOptions extends AdminPageMain {
 	 * Configure the options page.
 	 */
 	public function configure_options() {
-		$fields = [
-			[
-				'type'        => 'text',
-				'id'          => 'core_speed_optimizer_options_some_text',
-				'label'       => 'Text Field',
-				'description' => __( 'Enter a custom text value here.', 'core-speed-optimizer' ),
-			],
-			[
-				'type'        => 'checkbox',
-				'id'          => 'disable_block_editor_styles_frontend',
-				'label'       => 'Disable Block Editor Styles on Frontend',
-				'description' => __( 'If not using Blocks disable their styles.', 'core-speed-optimizer' ),
-			],
-			[
-				'type'        => 'select',
-				'id'          => 'custom_select',
-				'label'       => 'Select Option',
-				'description' => __( 'Choose one option from the dropdown.', 'core-speed-optimizer' ),
-				'options'     => [ 'Option 1', 'Option 2', 'Option 3' ],
-			],
+		// Register a new setting for plugin options page.
+		register_setting( $this->get_menu_slug(), $this->get_menu_slug() );
+
+		// Define fields.
+		$this->add_field(
 			[
 				'type'        => 'toggle',
-				'id'          => 'custom_toggle',
-				'label'       => 'Enable Dark Mode',
-				'description' => __( 'Toggle this setting to switch between dark and light mode.', 'core-speed-optimizer' ),
-			],
-		];
+				'id'          => 'disable_block_editor_styles_frontend',
+				'label'       => 'Disable Block Editor Styles on the Frontend',
+				'description' => __( 'If not using Blocks disable their styles.', 'core-speed-optimizer' ),
+			]
+		);
+		$this->add_field(
+			[
+				'type'        => 'toggle',
+				'id'          => 'disable_heartbeat_frontend',
+				'label'       => 'Disable Heartbeat API on the frontend',
+				'description' => __( 'Disable the WordPress Heartbeat API on the frontend but keep it active in the admin and post editor.', 'core-speed-optimizer' ),
+			]
+		);
+		$this->add_field(
+			[
+				'type'        => 'toggle',
+				'id'          => 'control_heartbeat_settings',
+				'label'       => 'Control the Heartbeat API execution',
+				'description' => __( 'Control the Heartbeat API execution based on user area (30s for admin and 60s for frontend).', 'core-speed-optimizer' ),
+			]
+		);
+		$this->add_field(
+			[
+				'type'        => 'toggle',
+				'id'          => 'disable_emojis',
+				'label'       => 'Disable emoji scripts and styles',
+				'description' => __( 'Disable all WordPress emoji scripts and styles.', 'core-speed-optimizer' ),
+			]
+		);
 
-		foreach ( $fields as $field ) {
-			add_settings_field(
-				$field['id'],
-				$field['label'],
-				[ $this, 'render_field' ],
-				$this->get_menu_slug(),
-				'core_speed_optimizer_options',
-				// Passing full field data.
-				$field
-			);
-
-			register_setting( $this->get_menu_slug(), $field['id'] );
-		}
-
+		// Add settings section.
 		add_settings_section(
-			'core_speed_optimizer_options',
+			$this->get_menu_slug(),
 			__( 'Assets', 'core-speed-optimizer' ),
 			[ $this, 'render_section' ],
 			$this->get_menu_slug()
@@ -129,20 +125,36 @@ class PluginOptions extends AdminPageMain {
 		<?php
 	}
 
+	public function add_field( $params ) {
+		add_settings_field(
+			$params['id'],
+			$params['label'],
+			[ $this, 'render_field' ],
+			$this->get_menu_slug(),
+			$this->get_menu_slug(),
+			// Passing field data.
+			$params
+		);
+
+		register_setting( $this->get_menu_slug(), $params['id'] );
+	}
+
 	// Render different field types dynamically.
 	public function render_field( $args ) {
-		$value = get_option( $args['id'], '' );
+		$options     = get_option( $this->get_menu_slug() );
+		$option_name = $this->get_menu_slug() . '[' . $args['id'] . ']';
+		$value       = ! empty( $options ) ? $options[ $args['id'] ] : '';
 
 		switch ( $args['type'] ) {
 			case 'text':
-				echo '<input type="text" name="' . esc_attr( $args['id'] ) . '" value="' . esc_attr( $value ) . '" />';
+				echo '<input type="text" name="' . esc_attr( $option_name ) . '" value="' . esc_attr( $value ) . '" />';
 				break;
 			case 'checkbox':
 				$checked = checked( 1, $value, false );
-				echo '<input type="checkbox" name="' . esc_attr( $args['id'] ) . '" value="1" ' . esc_attr( $checked ) . ' />';
+				echo '<input type="checkbox" name="' . esc_attr( $option_name ) . '" value="1" ' . esc_attr( $checked ) . ' />';
 				break;
 			case 'select':
-				echo '<select name="' . esc_attr( $args['id'] ) . '">';
+				echo '<select name="' . esc_attr( $option_name ) . '">';
 				foreach ( $args['options'] as $option ) {
 					$selected = selected( $value, $option, false );
 					echo '<option value="' . esc_attr( $option ) . '" ' . esc_attr( $selected ) . '>' . esc_html( $option ) . '</option>';
@@ -152,7 +164,7 @@ class PluginOptions extends AdminPageMain {
 			case 'toggle':
 				$checked = checked( 1, $value, false );
 				echo '<label class="switch">
-                        <input type="checkbox" name="' . esc_attr( $args['id'] ) . '" value="1" ' . esc_attr( $checked ) . '>
+                        <input type="checkbox" name="' . esc_attr( $option_name ) . '" value="1" ' . esc_attr( $checked ) . '>
                         <span class="slider round"></span>
                       </label>';
 				break;
@@ -183,7 +195,7 @@ class PluginOptions extends AdminPageMain {
 	}
 
 	/**
-	 * Get the options page menu slug.
+	 * Get the options page menu slug and options name.
 	 *
 	 * @return string
 	 */
