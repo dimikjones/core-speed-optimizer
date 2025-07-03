@@ -35,6 +35,15 @@ final class OptionsDispatch {
 		add_action( 'init', array( __CLASS__, 'disable_capital_p_dangit' ) );
 	}
 
+	public static function get_option_value( $value ) {
+		$plugin_options = get_option( 'core_speed_optimizer_options' );
+
+		if ( ! empty( $plugin_options ) && ! empty( $plugin_options[ $value ] ) ) {
+			return $plugin_options[ $value ];
+		} else {
+			return '';
+		}
+	}
 
 	/**
 	 * Dequeue block editor styles on frontend.
@@ -42,7 +51,7 @@ final class OptionsDispatch {
 	public static function disable_block_editor_styles_frontend() {
 		if ( Utils::is_request( 'frontend' ) ) {
 
-			if ( get_option( 'core_speed_optimizer_options' )['disable_block_editor_styles_frontend'] ) {
+			if ( self::get_option_value( 'disable_block_editor_styles_frontend' ) ) {
 				// Removes core block styles.
 				wp_dequeue_style( 'wp-block-library' );
 				// Removes theme block styles.
@@ -57,7 +66,7 @@ final class OptionsDispatch {
 	public static function disable_heartbeat_frontend() {
 		if ( Utils::is_request( 'frontend' ) ) {
 
-			if ( get_option( 'core_speed_optimizer_options' )['disable_heartbeat_frontend'] ) {
+			if ( self::get_option_value( 'disable_heartbeat_frontend' ) ) {
 				// Removes Heartbeat API script from loading.
 				wp_deregister_script( 'heartbeat' );
 			}
@@ -73,7 +82,7 @@ final class OptionsDispatch {
 	 */
 	public static function control_heartbeat_settings( $settings ) {
 
-		if ( get_option( 'core_speed_optimizer_options' )['control_heartbeat_settings'] ) {
+		if ( self::get_option_value( 'control_heartbeat_settings' ) ) {
 			if ( Utils::is_request( 'frontend' ) ) {
 				// Slower execution for frontend.
 				$settings['interval'] = 60;
@@ -91,7 +100,7 @@ final class OptionsDispatch {
 	 */
 	public static function disable_emojis() {
 
-		if ( get_option( 'core_speed_optimizer_options' )['disable_emojis'] ) {
+		if ( self::get_option_value( 'disable_emojis' ) ) {
 			// Remove emoji script from frontend and admin.
 			remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
@@ -146,7 +155,8 @@ final class OptionsDispatch {
 	 * Remove oEmbed discovery links from <head> (prevents unnecessary requests).
 	 */
 	public static function disable_wp_oembed() {
-		if ( get_option( 'core_speed_optimizer_options' )['disable_wp_oembed'] ) {
+		if ( self::get_option_value( 'disable_wp_oembed' ) ) {
+
 			remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
 
 			// Remove oEmbed-specific JavaScript that loads on the frontend.
@@ -173,7 +183,7 @@ final class OptionsDispatch {
 	 * This function removes links from the ping process if they belong to the same domain.
 	 */
 	public static function disable_self_pingbacks( &$links ) {
-		if ( get_option( 'core_speed_optimizer_options' )['disable_self_pingbacks'] ) {
+		if ( self::get_option_value( 'disable_self_pingbacks' ) ) {
 			// Get the site's base URL.
 			$home_url = home_url();
 
@@ -193,7 +203,7 @@ final class OptionsDispatch {
 	 * This reduces unnecessary database storage while retaining useful revisions for editing.
 	 */
 	public static function limit_post_revisions() {
-		if ( get_option( 'core_speed_optimizer_options' )['limit_post_revisions'] ) {
+		if ( self::get_option_value( 'limit_post_revisions' ) ) {
 			// Set the max number of revisions.
 			return 5;
 		}
@@ -203,10 +213,10 @@ final class OptionsDispatch {
 	 * Disable the `capital_P_dangit` function in WordPress.
 	 *
 	 * This function is normally applied to content, titles, comments, and feeds.
-	 * It prevents WordPress from auto-correcting "wordpress" to "WordPress."
+	 * It prevents WordPress from auto-correcting "WordPress" to "WordPress."
 	 */
 	public static function disable_capital_p_dangit() {
-		if ( get_option( 'core_speed_optimizer_options' )['disable_capital_p_dangit'] ) {
+		if ( self::get_option_value( 'disable_capital_p_dangit' ) ) {
 			remove_filter( 'the_content', 'capital_P_dangit', 11 );
 			remove_filter( 'the_title', 'capital_P_dangit', 11 );
 			remove_filter( 'wp_title', 'capital_P_dangit', 11 );

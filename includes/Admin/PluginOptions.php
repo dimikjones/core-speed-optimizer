@@ -175,7 +175,7 @@ class PluginOptions extends AdminPageMain {
 	public function render_field( $args ) {
 		$options     = get_option( $this->get_menu_slug() );
 		$option_name = $this->get_menu_slug() . '[' . $args['id'] . ']';
-		$value       = ! empty( $options ) ? $options[ $args['id'] ] : '';
+		$value       = ( ! empty( $options ) && ! empty( $options[ $args['id'] ] ) ) ? $options[ $args['id'] ] : '';
 
 		switch ( $args['type'] ) {
 			case 'text':

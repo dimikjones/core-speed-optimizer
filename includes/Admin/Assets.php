@@ -43,7 +43,7 @@ final class Assets {
 	public static function add_styles( $styles ) {
 
 		$styles['core-speed-optimizer-admin'] = array(
-			'src' => AssetsMain::localize_asset( 'css/admin/core-speed-optimizer.css' ),
+			'src' => AssetsMain::localize_asset( 'admin.css' ),
 		);
 
 		return $styles;
@@ -59,7 +59,7 @@ final class Assets {
 	public static function add_scripts( $scripts ) {
 
 		$scripts['core-speed-optimizer-admin'] = array(
-			'src'  => AssetsMain::localize_asset( 'js/admin/core-speed-optimizer.js' ),
+			'src'  => AssetsMain::localize_asset( 'admin.js' ),
 			'data' => array(
 				'ajax_url' => Utils::ajax_url(),
 			),
