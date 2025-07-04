@@ -125,6 +125,34 @@ class PluginOptions extends AdminPageMain {
 				'description' => __( 'It prevents WordPress from auto-correcting "wordpress" to "WordPress."', 'core-speed-optimizer' ),
 			]
 		);
+		$this->add_field(
+			[
+				'type'        => 'text',
+				'id'          => 'textfield_test',
+				'label'       => 'textfield test',
+				'description' => __( 'It prevents WordPress from auto-correcting "wordpress" to "WordPress."', 'core-speed-optimizer' ),
+			]
+		);
+		$this->add_field(
+			[
+				'type'        => 'checkbox',
+				'id'          => 'checkboxfield_test',
+				'label'       => 'checkboxfield test',
+				'description' => __( 'It prevents WordPress from auto-correcting "wordpress" to "WordPress."', 'core-speed-optimizer' ),
+			]
+		);
+		$this->add_field(
+			[
+				'type'        => 'select',
+				'id'          => 'selectfield_test',
+				'options'     => [
+						''           => 'Default',
+						'option-one' => 'Option One',
+				],
+				'label'       => 'selectfield test',
+				'description' => __( 'It prevents WordPress from auto-correcting "wordpress" to "WordPress."', 'core-speed-optimizer' ),
+			]
+		);
 
 		// Add settings section.
 		add_settings_section(
@@ -187,26 +215,28 @@ class PluginOptions extends AdminPageMain {
 
 		switch ( $args['type'] ) {
 			case 'text':
-				echo '<input type="text" name="' . esc_attr( $option_name ) . '" value="' . esc_attr( $value ) . '" />';
+				echo '<div class="cso-field text"><input type="text" name="' . esc_attr( $option_name ) . '" value="' . esc_attr( $value ) . '" /></div>';
 				break;
 			case 'checkbox':
 				$checked = checked( 1, $value, false );
-				echo '<input type="checkbox" name="' . esc_attr( $option_name ) . '" value="1" ' . esc_attr( $checked ) . ' />';
+				echo '<div class="cso-field checkbox"><input type="checkbox" name="' . esc_attr( $option_name ) . '" value="1" ' . esc_attr( $checked ) . ' /></div>';
 				break;
 			case 'select':
-				echo '<select name="' . esc_attr( $option_name ) . '">';
-				foreach ( $args['options'] as $option ) {
-					$selected = selected( $value, $option, false );
-					echo '<option value="' . esc_attr( $option ) . '" ' . esc_attr( $selected ) . '>' . esc_html( $option ) . '</option>';
+				echo '<div class="cso-field select"><select name="' . esc_attr( $option_name ) . '">';
+				if ( isset( $args['options'] ) ) {
+					foreach ( $args['options'] as $option ) {
+						$selected = selected( $value, $option, false );
+						echo '<option value="' . esc_attr( $option ) . '" ' . esc_attr( $selected ) . '>' . esc_html( $option ) . '</option>';
+					}
 				}
-				echo '</select>';
+				echo '</select></div>';
 				break;
 			case 'toggle':
 				$checked = checked( 1, $value, false );
-				echo '<label class="switch">
+				echo '<div class="cso-field toggle"><label>
                         <input type="checkbox" name="' . esc_attr( $option_name ) . '" value="1" ' . esc_attr( $checked ) . '>
                         <span class="slider round"></span>
-                      </label>';
+                      </label></div>';
 				break;
 		}
 

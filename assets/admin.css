@@ -5,4 +5,55 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+:root {
+  --cso-main-color: #f66f44;
+  --cso-active-color: #3bb66b;
+  --cso-gray-color: #b5b3b5; }
+
+#core-speed-optimizer-options .cso-field.toggle {
+  /* Rounded sliders */ }
+  #core-speed-optimizer-options .cso-field.toggle label {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 22px; }
+    #core-speed-optimizer-options .cso-field.toggle label input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      outline: none;
+      box-shadow: none;
+      border: none; }
+  #core-speed-optimizer-options .cso-field.toggle .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--cso-gray-color);
+    -webkit-transition: .3s;
+    transition: .3s; }
+    #core-speed-optimizer-options .cso-field.toggle .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      -webkit-transition: .3s;
+      transition: .3s; }
+  #core-speed-optimizer-options .cso-field.toggle input:checked + .slider {
+    background-color: var(--cso-active-color); }
+  #core-speed-optimizer-options .cso-field.toggle input:focus + .slider {
+    box-shadow: none; }
+  #core-speed-optimizer-options .cso-field.toggle input:checked + .slider:before {
+    -webkit-transform: translateX(22px);
+    -ms-transform: translateX(22px);
+    transform: translateX(22px); }
+  #core-speed-optimizer-options .cso-field.toggle .slider.round {
+    border-radius: 34px; }
+    #core-speed-optimizer-options .cso-field.toggle .slider.round:before {
+      border-radius: 50%; }
 
