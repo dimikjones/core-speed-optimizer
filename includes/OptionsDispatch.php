@@ -28,6 +28,7 @@ final class OptionsDispatch {
 		add_filter( 'wp_enqueue_scripts', array( __CLASS__, 'disable_block_editor_styles_frontend' ), 100 );
 		add_filter( 'wp_enqueue_scripts', array( __CLASS__, 'disable_heartbeat_frontend' ), 100 );
 		add_filter( 'heartbeat_settings', array( __CLASS__, 'control_heartbeat_settings' ) );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'deregister_dashicons_non_admin' ) );
 		add_action( 'init', array( __CLASS__, 'disable_emojis' ) );
 		add_action( 'init', array( __CLASS__, 'disable_wp_oembed' ) );
 		add_action( 'pre_ping', array( __CLASS__, 'disable_self_pingbacks' ) );
@@ -93,6 +94,29 @@ final class OptionsDispatch {
 		}
 
 		return $settings;
+	}
+
+	/**
+	 * Deregister Dashicons stylesheet on the frontend for non-admin users.
+	 *
+	 * This function checks if the current request is on the frontend and if the
+	 * current user does not have the 'manage_options' capability (typically admins).
+	 * If both conditions are met, it deregisters the 'dashicons' stylesheet.
+	 */
+	public static function deregister_dashicons_non_admin() {
+		if ( self::get_option_value( 'disable_dashicons_non_admin' ) ) {
+			// Check if we are on the frontend.
+			// is_admin() returns true if in the admin area, false otherwise.
+			if ( ! is_admin() ) {
+				// Check if the current user does NOT have 'manage_options' capability.
+				// Users with 'manage_options' are typically administrators.
+				if ( ! current_user_can( 'manage_options' ) ) {
+					// Deregister the 'dashicons' stylesheet.
+					// This prevents it from being enqueued on the frontend for non-admin users.
+					wp_deregister_style( 'dashicons' );
+				}
+			}
+		}
 	}
 
 	/**

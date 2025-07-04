@@ -80,6 +80,14 @@ class PluginOptions extends AdminPageMain {
 		$this->add_field(
 			[
 				'type'        => 'toggle',
+				'id'          => 'disable_dashicons_non_admin',
+				'label'       => 'Disable Dashicons for non-admin',
+				'description' => __( 'Disable default WordPress Dashicons styles on frontend for non-admin users.', 'core-speed-optimizer' ),
+			]
+		);
+		$this->add_field(
+			[
+				'type'        => 'toggle',
 				'id'          => 'disable_emojis',
 				'label'       => 'Disable emoji scripts and styles',
 				'description' => __( 'Disable all WordPress emoji scripts and styles.', 'core-speed-optimizer' ),
