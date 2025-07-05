@@ -7,7 +7,9 @@
 	// Color variables
 	--cso-main-color: #f66f44;
 	--cso-active-color: #3bb66b;
-	--cso-gray-color: #b5b3b5;
+	--cso-gray-bg-color: #b5b3b5;
+	--cso-border-color: #dedede;
+	--cso-border-active: #c1c1c1;
 }
 
 #core-speed-optimizer-options {
@@ -41,7 +43,7 @@
 				left: 0;
 				right: 0;
 				bottom: 0;
-				background-color: var(--cso-gray-color);
+				background-color: var(--cso-gray-bg-color);
 				-webkit-transition: .3s;
 				transition: .3s;
 
@@ -81,6 +83,38 @@
 					&:before {
 						border-radius: 50%;
 					}
+				}
+			}
+		}
+
+		// Text field
+		&.text {
+
+			input {
+				position: relative;
+				display: inline-block;
+				width: 100%;
+				vertical-align: top;
+				margin: 0;
+				padding: 10px 20px;
+				font-family: inherit;
+				font-size: 14px;
+				line-height: 21px;
+				font-weight: inherit;
+				color: inherit;
+				background-color: #fff;
+				border: 1px solid var(--cso-border-color);
+				border-radius: 34px;
+				outline: 0;
+				cursor: pointer;
+				transition: color .2s ease-out, background-color .2s ease-out, border-color .2s ease-out;
+				box-shadow: none;
+				max-width: 250px;
+
+				&:focus {
+					color: #000;
+					background-color: #fff;
+					border-color: var(--cso-border-active);
 				}
 			}
 		}
