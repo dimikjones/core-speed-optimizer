@@ -84,6 +84,27 @@
     background-color: #fff;
     border-color: var(--cso-border-active); }
 
+#core-speed-optimizer-options .cso-field.select select {
+  color: currentColor;
+  background-color: #fff;
+  background-position: right 15px top 55%;
+  border: 1px solid var(--cso-border-color);
+  box-shadow: none;
+  padding: 10px 34px 10px 20px;
+  border-radius: 34px;
+  font-size: 14px;
+  min-height: initial;
+  max-width: 250px;
+  line-height: 21px;
+  width: 250px;
+  transition: color .2s ease-out, background-color .2s ease-out, border-color .2s ease-out; }
+  #core-speed-optimizer-options .cso-field.select select:focus {
+    color: #000;
+    background-color: #fff;
+    border-color: var(--cso-border-active); }
+  #core-speed-optimizer-options .cso-field.select select option:checked {
+    font-weight: bold; }
+
 #core-speed-optimizer-options .cso-field.checkbox .option-wrapper {
   position: relative;
   display: inline-flex; }
