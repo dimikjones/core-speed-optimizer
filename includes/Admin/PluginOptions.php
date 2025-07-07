@@ -125,34 +125,6 @@ class PluginOptions extends AdminPageMain {
 				'description' => __( 'It prevents WordPress from auto-correcting "wordpress" to "WordPress."', 'core-speed-optimizer' ),
 			]
 		);
-		$this->add_field(
-			[
-				'type'        => 'text',
-				'id'          => 'textfield_test',
-				'label'       => 'textfield test',
-				'description' => __( 'It prevents WordPress from auto-correcting "wordpress" to "WordPress."', 'core-speed-optimizer' ),
-			]
-		);
-		$this->add_field(
-			[
-				'type'        => 'checkbox',
-				'id'          => 'checkboxfield_test',
-				'label'       => 'checkboxfield test',
-				'description' => __( 'It prevents WordPress from auto-correcting "wordpress" to "WordPress."', 'core-speed-optimizer' ),
-			]
-		);
-		$this->add_field(
-			[
-				'type'        => 'select',
-				'id'          => 'selectfield_test',
-				'options'     => [
-						''           => 'Default',
-						'option-one' => 'Option One',
-				],
-				'label'       => 'selectfield test',
-				'description' => __( 'It prevents WordPress from auto-correcting "wordpress" to "WordPress."', 'core-speed-optimizer' ),
-			]
-		);
 
 		// Add settings section.
 		add_settings_section(
