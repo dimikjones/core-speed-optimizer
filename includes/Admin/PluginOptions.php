@@ -218,15 +218,6 @@ class PluginOptions extends AdminPageMain {
 		}
 	}
 
-	public function render_settings_page() {
-		echo '<div class="wrap"><h2>My Settings Page</h2>';
-		echo '<form method="post" action="options.php">';
-		settings_fields( $this->get_menu_slug() );
-		do_settings_sections( $this->get_menu_slug() );
-		submit_button();
-		echo '</form></div>';
-	}
-
 	/**
 	 * Renders the section.
 	 */
