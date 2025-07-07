@@ -84,3 +84,41 @@
     background-color: #fff;
     border-color: var(--cso-border-active); }
 
+#core-speed-optimizer-options .cso-field.checkbox .option-wrapper {
+  position: relative;
+  display: inline-flex; }
+
+#core-speed-optimizer-options .cso-field.checkbox input {
+  appearance: none;
+  background: #fff;
+  border: 1px solid var(--cso-border-color);
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: none;
+  margin: 0;
+  min-height: initial;
+  min-width: initial;
+  outline: 0;
+  position: relative;
+  transition: border-color .2s ease-out;
+  width: 20px;
+  height: 20px; }
+  #core-speed-optimizer-options .cso-field.checkbox input:before {
+    display: none !important; }
+  #core-speed-optimizer-options .cso-field.checkbox input:after {
+    background-color: var(--cso-active-color);
+    content: '';
+    display: block;
+    height: calc(100% - 8px);
+    width: calc(100% - 8px);
+    border-radius: 50%;
+    left: 4px;
+    opacity: 0;
+    position: absolute;
+    top: 4px;
+    transition: opacity .2s ease-out; }
+  #core-speed-optimizer-options .cso-field.checkbox input:checked {
+    border-color: var(--cso-active-color); }
+    #core-speed-optimizer-options .cso-field.checkbox input:checked:after {
+      opacity: 1; }
+

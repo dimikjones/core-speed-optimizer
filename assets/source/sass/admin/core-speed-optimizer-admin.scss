@@ -118,5 +118,59 @@
 				}
 			}
 		}
+
+		// Checkbox field
+		&.checkbox {
+
+			.option-wrapper {
+				position: relative;
+				display: inline-flex;
+			}
+
+			input {
+				appearance: none;
+				background: #fff;
+				border: 1px solid var(--cso-border-color);
+				border-radius: 50%;
+				display: inline-block;
+				box-shadow: none;
+				margin: 0;
+				min-height: initial;
+				min-width: initial;
+				outline: 0;
+				position: relative;
+				transition: border-color .2s ease-out;
+				width: 20px;
+				height: 20px;
+
+				&:before {
+					display: none !important;
+				}
+
+				&:after {
+					$offset: 4px;
+
+					background-color: var(--cso-active-color);
+					content: '';
+					display: block;
+					height: calc(100% - #{$offset * 2});
+					width: calc(100% - #{$offset * 2});
+					border-radius: 50%;
+					left: $offset;
+					opacity: 0;
+					position: absolute;
+					top: $offset;
+					transition: opacity .2s ease-out;
+				}
+
+				&:checked {
+					border-color: var(--cso-active-color);
+
+					&:after {
+						opacity: 1;
+					}
+				}
+			}
+		}
 	}
 }
