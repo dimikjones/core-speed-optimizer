@@ -12,7 +12,63 @@
 	--cso-border-active: #c1c1c1;
 }
 
+.toplevel_page_core_speed_optimizer_options {
+
+	#wpcontent {
+		padding-left: 0;
+	}
+}
+
 #core-speed-optimizer-options {
+	max-width: 700px;
+	margin: 65px auto 0 auto;
+	padding: 50px;
+	background: #fff;
+
+	@media screen and (max-width: 782px) {
+		padding: 10px;
+	}
+
+	.form-table {
+
+		td, td p, th {
+			font-size: 15px;
+		}
+
+		th {
+			width: auto;
+			padding: 0;
+			color: var(--cso-main-color);
+		}
+
+		tr {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			width: 60%;
+			margin: 20px 0;
+			padding-right: 40px;
+
+			@media screen and (max-width: 782px) {
+				width: 50%;
+				padding-right: 20px;
+			}
+		}
+
+		td {
+			padding: 0;
+
+			.cso-field {
+				position: absolute;
+				left: 100%;
+				width: 65%;
+				height: 100%;
+				top: 0;
+				display: flex;
+				align-items: center;
+			}
+		}
+	}
 
 	// All field
 	.cso-field {
@@ -109,7 +165,7 @@
 				cursor: pointer;
 				transition: color .2s ease-out, background-color .2s ease-out, border-color .2s ease-out;
 				box-shadow: none;
-				max-width: 250px;
+				max-width: 235px;
 
 				&:focus {
 					color: #000;
@@ -132,9 +188,9 @@
 				border-radius: 34px;
 				font-size: 14px;
 				min-height: initial;
-				max-width: 250px;
+				max-width: 235px;
 				line-height: 21px;
-				width: 250px;
+				width: 235px;
 				transition: color .2s ease-out, background-color .2s ease-out, border-color .2s ease-out;
 
 				&:focus {
